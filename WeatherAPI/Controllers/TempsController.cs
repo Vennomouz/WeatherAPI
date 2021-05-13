@@ -60,6 +60,12 @@ namespace WeatherAPI.Controllers
             }
             else if (DateTime.Now.AddMinutes(-20) >= temp.date)
             {
+                dynamic dados = getOpenWeather.metodoGetAsync(name).Result;
+
+                temp.name = dados.name;
+                temp.tempMax = dados.main.temp_max;
+                temp.tempMin = dados.main.temp_min;
+                temp.tempAtual = dados.main.temp;
                 temp.date = DateTime.Now;
                 await PutTemp(temp.id, temp);
                 temp = await _context.Temps.FindAsync(temp.id);
